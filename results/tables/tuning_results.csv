@@ -1,0 +1,4 @@
+model,best_params
+ridge,{'alpha': 89.84461083770101}
+lightgbm,"{'n_estimators': 200, 'learning_rate': 0.04592583331800937, 'num_leaves': 71, 'min_child_samples': 14, 'subsample': 0.9290837531162541, 'colsample_bytree': 0.995233687778426}"
+catboost,"{'iterations': 250, 'learning_rate': 0.11367526991448901, 'depth': 6, 'l2_leaf_reg': 6.387926357773329}"

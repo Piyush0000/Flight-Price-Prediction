@@ -357,3 +357,4 @@ def plot_learning_curve(
     fig.savefig(config.figures_dir / "learning_curve.png", dpi=300)
     plt.close(fig)
     logger.info("Saved learning curve figure.")
+

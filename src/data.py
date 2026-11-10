@@ -223,3 +223,4 @@ def load_dataset(config: ProjectConfig) -> pd.DataFrame:
         logger.warning("Parquet save failed (%s), saved to CSV fallback: %s", e, csv_fallback)
 
     return df_clean
+

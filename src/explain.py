@@ -215,3 +215,4 @@ def run_explainability_pipeline(
     logger.info("Feature ranking correlation table saved.")
 
     return corr_df
+

@@ -1,0 +1,3 @@
+Split_Strategy,MAE_Mean,MAE_Std,RMSE_Mean,RMSE_Std,R2_Mean,R2_Std,MAPE_Mean,sMAPE_Mean
+GroupKFold (Leakage-Safe),2828.5,182.01,5064.54,359.93,0.95,0.01,15.96,15.73
+Random KFold (Leaking),2211.86,14.6,4012.61,26.17,0.97,0.0,12.83,12.8

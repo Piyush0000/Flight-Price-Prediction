@@ -1,0 +1,6 @@
+action,details,rows_affected
+drop_unnamed_columns,Removed index columns: ['Unnamed: 0'],0
+column_mapping,Mapped 11 columns to standard schema,0
+drop_exact_duplicates,Removed exact duplicates,0
+filter_positive_price,Removed missing or non-positive price records (price <= 0),0
+summary,"Initial rows: 300153, Final clean rows: 300153",0

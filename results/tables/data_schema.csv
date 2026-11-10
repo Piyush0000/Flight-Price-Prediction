@@ -1,0 +1,13 @@
+column,dtype,non_null_count,unique_count
+Unnamed: 0,int64,300153,300153
+airline,str,300153,6
+flight,str,300153,1561
+source_city,str,300153,6
+departure_time,str,300153,6
+stops,str,300153,3
+arrival_time,str,300153,6
+destination_city,str,300153,6
+class,str,300153,2
+duration,float64,300153,476
+days_left,int64,300153,49
+price,int64,300153,12157

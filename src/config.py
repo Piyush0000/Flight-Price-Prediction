@@ -125,3 +125,4 @@ def load_config(config_path: Optional[str | Path] = None) -> ProjectConfig:
     cfg = ProjectConfig(config_dict, project_root=project_root)
     cfg.ensure_directories()
     return cfg
+

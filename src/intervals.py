@@ -278,3 +278,4 @@ def plot_prediction_intervals(
     fig.savefig(config.figures_dir / "prediction_intervals.png", dpi=300)
     plt.close(fig)
     logger.info("Prediction interval figure saved to results/figures/prediction_intervals.png.")
+
