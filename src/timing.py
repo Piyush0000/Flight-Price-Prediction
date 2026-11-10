@@ -85,6 +85,9 @@ def analyze_booking_timing(
             q_in = preprocessor.transform(query_df_feat)
             q_low = np.expm1(quantile_low_pipe.predict(q_in))
             q_high = np.expm1(quantile_high_pipe.predict(q_in))
+            # Protect against quantile crossing
+            q_low = np.minimum(q_low, pred_price)
+            q_high = np.maximum(q_high, pred_price)
         else:
             q_low = pred_price * 0.85
             q_high = pred_price * 1.15

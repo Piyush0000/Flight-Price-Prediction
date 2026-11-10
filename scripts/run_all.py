@@ -62,7 +62,11 @@ def main() -> None:
 
     # 2. Ingestion & Diagnostics
     logger.info("[Step 1/8] Ingesting and validating flight price dataset...")
-    df_clean = load_dataset(config)
+    try:
+        df_clean = load_dataset(config)
+    except FileNotFoundError as e:
+        logger.error("Execution stopped: Raw CSV dataset missing from data/raw/.")
+        sys.exit(1)
 
     # 3. Feature Engineering
     logger.info("[Step 2/8] Engineering domain features and target transformations...")
@@ -222,10 +226,7 @@ def main() -> None:
     stacker_test_metrics = evaluate_predictions(y_test, stacker_test_preds, is_log_target=True)
 
     # Stacker CV metrics from meta-learner OOF predictions
-    meta_oof_preds = stacker.meta_regressor.predict(
-        np.column_stack([oof_predictions_dict[k] for k in ["LightGBM", "CatBoost", "RandomForest", "HistGradientBoosting"]])
-    )
-    stacker_cv_metrics = evaluate_predictions(y_train, meta_oof_preds, is_log_target=True)
+    stacker_cv_metrics = evaluate_predictions(y_train, stacker.oof_meta_pred_, is_log_target=True)
 
     model_comparison_records.append(
         {

@@ -64,10 +64,10 @@ validation:
 
 tuning:
   enabled: true
-  n_trials: 25
+  n_trials: 15
   cv_folds: 3
   seed: 42
-  timeout: 300
+  timeout: 180
 
 models:
   # List of models to evaluate (NO XGBoost allowed anywhere)

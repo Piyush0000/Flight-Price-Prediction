@@ -91,7 +91,7 @@ def create_linear_pipelines(
     ridge_params = params.get("ridge", {"alpha": 1.0, "random_state": seed})
     enet_params = params.get(
         "elastic_net",
-        {"alpha": 0.05, "l1_ratio": 0.5, "max_iter": 2000, "random_state": seed},
+        {"alpha": 0.05, "l1_ratio": 0.5, "max_iter": 500, "tol": 1e-3, "random_state": seed},
     )
 
     preprocessor = build_sklearn_preprocessor(cat_cols, num_cols, bin_cols, use_one_hot=True)
@@ -125,9 +125,9 @@ def create_tree_pipelines(
     rf_params = params.get(
         "random_forest",
         {
-            "n_estimators": 100,
-            "max_depth": 16,
-            "min_samples_leaf": 4,
+            "n_estimators": 50,
+            "max_depth": 14,
+            "min_samples_leaf": 6,
             "n_jobs": 4,
             "random_state": seed,
         },
@@ -135,9 +135,9 @@ def create_tree_pipelines(
     et_params = params.get(
         "extra_trees",
         {
-            "n_estimators": 100,
-            "max_depth": 16,
-            "min_samples_leaf": 4,
+            "n_estimators": 50,
+            "max_depth": 14,
+            "min_samples_leaf": 6,
             "n_jobs": 4,
             "random_state": seed,
         },
@@ -311,6 +311,7 @@ class GroupedStackingRegressor(BaseEstimator, RegressorMixin):
         # Build meta feature matrix
         meta_X = np.column_stack([oof_predictions[name] for name in model_names])
         self.meta_regressor.fit(meta_X, y)
+        self.oof_meta_pred_ = self.meta_regressor.predict(meta_X)
         logger.info(
             "Meta-learner weights: %s",
             dict(zip(model_names, np.round(getattr(self.meta_regressor, "coef_", [1.0] * len(model_names)), 4))),
