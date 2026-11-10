@@ -1,0 +1,6 @@
+Ablation_Variant,Test_MAE,Test_RMSE,Test_R2,Test_MAPE,Test_sMAPE
+Full Feature Set,2701.0,4738.64,0.9556,16.28,16.02
+Without days_left,3487.47,5422.16,0.9419,27.49,26.5
+Without route features,2778.26,4795.28,0.9545,16.66,16.41
+Without airline,3259.48,5551.34,0.9391,22.26,20.31
+Trivial features only (airline + class),4598.93,7500.35,0.8888,33.95,30.69

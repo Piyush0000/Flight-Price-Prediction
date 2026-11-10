@@ -1,0 +1,11 @@
+route,count,MAE,RMSE,MAPE
+Bangalore_Delhi,3738,2601.82,4403.64,15.47
+Bangalore_Hyderabad,2425,3988.69,6103.55,16.97
+Bangalore_Kolkata,2379,3633.67,5408.26,14.71
+Bangalore_Mumbai,3105,2047.21,3911.73,15.73
+Delhi_Kolkata,2269,1885.22,3086.76,18.56
+Delhi_Mumbai,2780,3010.02,4707.87,20.66
+Kolkata_Bangalore,2315,3548.84,5102.17,13.8
+Kolkata_Delhi,2415,3067.43,5005.51,12.56
+Mumbai_Delhi,3047,2776.41,5225.35,18.9
+Mumbai_Kolkata,2308,2274.79,4449.41,11.15

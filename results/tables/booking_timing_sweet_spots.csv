@@ -1,0 +1,6 @@
+Route,Airline,Class,Stops,Min_Predicted_Price_INR,Sweet_Spot_Window_Days,Sharp_Price_Rise_Threshold_Days,Last_Minute_Penalty_INR,Nature_of_Claim
+Delhi_Mumbai,Vistara,Economy,one,5784.12,18 - 50 days,<= 17 days,11009.43,Model-based observational estimate (non-causal)
+Mumbai_Delhi,Vistara,Economy,one,5443.54,18 - 50 days,<= 17 days,10342.08,Model-based observational estimate (non-causal)
+Delhi_Bangalore,Vistara,Economy,one,4742.95,18 - 50 days,<= 17 days,10643.26,Model-based observational estimate (non-causal)
+Bangalore_Delhi,Vistara,Economy,one,5148.98,25 - 50 days,<= 17 days,11718.47,Model-based observational estimate (non-causal)
+Bangalore_Mumbai,Vistara,Economy,one,6902.12,18 - 50 days,<= 38 days,10576.81,Model-based observational estimate (non-causal)
