@@ -204,20 +204,14 @@ def main() -> None:
     # G. Stacking Ensemble
     logger.info("Building Stacking Ensemble with Ridge Meta-Learner...")
     stacking_base_models = {
-        "lightgbm": create_lightgbm_pipeline(
-            cat_cols, num_cols, bin_cols, seed=config.seed, params=tuned_params.get("lightgbm")
-        ),
-        "catboost": create_catboost_model(
-            cat_cols, seed=config.seed, params=tuned_params.get("catboost")
-        ),
-        "random_forest": tree_models["random_forest"],
-        "hist_gb": create_hist_gradient_boosting_pipeline(
-            cat_cols, num_cols, bin_cols, seed=config.seed
-        ),
+        "LightGBM": fitted_models["LightGBM"],
+        "CatBoost": fitted_models["CatBoost"],
+        "RandomForest": fitted_models["RandomForest"],
+        "HistGradientBoosting": fitted_models["HistGradientBoosting"],
     }
 
     stacker = GroupedStackingRegressor(stacking_base_models, cat_cols=cat_cols)
-    stacker.fit_with_oof(X_train, y_train, g_train, cv_splits)
+    stacker.fit_from_oof(oof_predictions_dict, y_train)
     fitted_models["Stacking_Ensemble"] = stacker
     save_model(stacker, config.models_dir / "stacking_ensemble.joblib")
 

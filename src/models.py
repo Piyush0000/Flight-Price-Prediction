@@ -266,6 +266,24 @@ class GroupedStackingRegressor(BaseEstimator, RegressorMixin):
         self.cat_cols = cat_cols or []
         self.fitted_base_models_: Dict[str, Any] = {}
 
+    def fit_from_oof(
+        self,
+        oof_predictions: Dict[str, np.ndarray],
+        y: np.ndarray | pd.Series,
+    ) -> "GroupedStackingRegressor":
+        """Fit meta-learner directly using precomputed out-of-fold predictions and fitted base models."""
+        model_names = list(self.base_models.keys())
+        meta_X = np.column_stack([oof_predictions[name] for name in model_names])
+        y_arr = np.asarray(y, dtype=float)
+        self.meta_regressor.fit(meta_X, y_arr)
+        self.oof_meta_pred_ = self.meta_regressor.predict(meta_X)
+        self.fitted_base_models_ = self.base_models
+        logger.info(
+            "Meta-learner weights: %s",
+            dict(zip(model_names, np.round(getattr(self.meta_regressor, "coef_", [1.0] * len(model_names)), 4))),
+        )
+        return self
+
     def fit_with_oof(
         self,
         X: pd.DataFrame,
@@ -280,10 +298,12 @@ class GroupedStackingRegressor(BaseEstimator, RegressorMixin):
         n_samples = len(X)
         model_names = list(self.base_models.keys())
         oof_predictions = {name: np.zeros(n_samples) for name in model_names}
+        y_arr = np.asarray(y, dtype=float)
 
         logger.info("Computing grouped Out-Of-Fold predictions for Stacking Ensemble...")
         for fold, (train_idx, val_idx) in enumerate(cv_splits, 1):
-            X_tr, y_tr = X.iloc[train_idx], y.iloc[train_idx]
+            X_tr = X.iloc[train_idx]
+            y_tr = y_arr[train_idx]
             X_va = X.iloc[val_idx]
 
             for name, model in self.base_models.items():
@@ -310,7 +330,7 @@ class GroupedStackingRegressor(BaseEstimator, RegressorMixin):
 
         # Build meta feature matrix
         meta_X = np.column_stack([oof_predictions[name] for name in model_names])
-        self.meta_regressor.fit(meta_X, y)
+        self.meta_regressor.fit(meta_X, y_arr)
         self.oof_meta_pred_ = self.meta_regressor.predict(meta_X)
         logger.info(
             "Meta-learner weights: %s",
@@ -321,12 +341,12 @@ class GroupedStackingRegressor(BaseEstimator, RegressorMixin):
         logger.info("Refitting base models on full training set...")
         for name, model in self.base_models.items():
             if name == "catboost":
-                model.fit(X, y)
+                model.fit(X, y_arr)
                 self.fitted_base_models_[name] = model
             else:
                 from sklearn.base import clone
                 m = clone(model)
-                m.fit(X, y)
+                m.fit(X, y_arr)
                 self.fitted_base_models_[name] = m
 
         return self
