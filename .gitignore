@@ -1,0 +1,50 @@
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Data directories (keep directory structure via .gitkeep)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Models (keep directory structure via .gitkeep)
+models/*.joblib
+!models/.gitkeep
+
+# CatBoost temporary directory
+catboost_info/
+
+# IDE and Editor configurations
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and environment variables
+*.log
+.env
+.env.*
+*.db
+*.sqlite3
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/

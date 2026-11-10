@@ -1,0 +1,103 @@
+project:
+  name: "Explainable Flight Price Prediction with Calibrated Prediction Intervals and Booking-Timing Analysis"
+  seed: 42
+  description: "End-to-end reproducible machine learning pipeline for flight price prediction, uncertainty quantification, explainability, and booking-timing dynamics."
+
+paths:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  models_dir: "models"
+  figures_dir: "results/figures"
+  tables_dir: "results/tables"
+  raw_csv_filename: "Clean_Dataset.csv"
+  processed_data_file: "data/processed/cleaned_flights.parquet"
+
+data:
+  # Column mapping from raw source columns to standardized internal schema
+  column_mapping:
+    airline: "airline"
+    flight: "flight"
+    source_city: "source_city"
+    departure_time: "departure_time"
+    stops: "stops"
+    arrival_time: "arrival_time"
+    destination_city: "destination_city"
+    class: "class"
+    duration: "duration"
+    days_left: "days_left"
+    price: "price"
+  
+  # Standard column names
+  group_column: "flight"
+  target_column: "price"
+  log_target_column: "log_price"
+
+features:
+  categorical_features:
+    - "airline"
+    - "source_city"
+    - "destination_city"
+    - "departure_time"
+    - "arrival_time"
+    - "stops"
+    - "class"
+    - "route"
+    - "airline_route"
+    - "days_left_bucket"
+  
+  numerical_features:
+    - "duration"
+    - "days_left"
+    - "route_target_encoded"
+  
+  binary_features:
+    - "is_direct"
+    - "is_last_minute"
+    - "is_red_eye"
+
+validation:
+  cv_folds: 5
+  holdout_fraction: 0.20
+  group_col: "flight"
+  seed: 42
+  run_kfold_leakage_comparison: true
+
+tuning:
+  enabled: true
+  n_trials: 25
+  cv_folds: 3
+  seed: 42
+  timeout: 300
+
+models:
+  # List of models to evaluate (NO XGBoost allowed anywhere)
+  baselines:
+    - "median_baseline"
+    - "route_mean_baseline"
+  linear_models:
+    - "ridge"
+    - "elastic_net"
+  tree_models:
+    - "random_forest"
+    - "extra_trees"
+    - "lightgbm"
+    - "catboost"
+    - "hist_gradient_boosting"
+  ensemble:
+    - "stacking"
+
+intervals:
+  alphas: [0.10, 0.50, 0.90]
+  target_coverage: 0.80
+  calibration_size: 0.25
+
+explainability:
+  sample_size: 1000
+  interaction_pairs:
+    - ["days_left", "class"]
+    - ["stops", "duration"]
+
+timing_analysis:
+  min_days_left: 1
+  max_days_left: 50
+  top_routes_count: 5
